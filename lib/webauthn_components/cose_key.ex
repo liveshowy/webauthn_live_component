@@ -1,4 +1,4 @@
-defmodule WebAuthnComponents.CoseKey do
+defmodule WebauthnComponents.CoseKey do
   @moduledoc """
   Custom `Ecto.Type` for WebAuthn cose keys.
 
@@ -11,7 +11,7 @@ defmodule WebAuthnComponents.CoseKey do
     use Ecto.Schema
     import Ecto.Changeset
     alias MyApp.Accounts.User
-    alias WebAuthnComponents.CoseKey
+    alias WebauthnComponents.CoseKey
 
     @primary_key {:id, :binary_id, autogenerate: true}
     @foreign_key_type :binary_id

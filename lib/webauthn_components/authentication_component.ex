@@ -3,7 +3,7 @@ defmodule WebauthnComponents.AuthenticationComponent do
   A LiveComponent for authentication via WebAuthn API.
   """
   use Phoenix.LiveComponent
-  import WebAuthnComponents.Icons
+  import WebauthnComponents.Icons
 
   def mount(socket) do
     {

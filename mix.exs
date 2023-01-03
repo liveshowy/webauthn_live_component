@@ -1,4 +1,4 @@
-defmodule WebAuthnComponents.MixProject do
+defmodule WebauthnComponents.MixProject do
   use Mix.Project
 
   # Don't forget to change the version in `package.json`
@@ -13,7 +13,7 @@ defmodule WebAuthnComponents.MixProject do
       docs: docs(),
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
-      name: "WebAuthnComponents",
+      name: "WebauthnComponents",
       package: package(),
       start_permanent: Mix.env() == :prod,
       version: @version
@@ -47,7 +47,7 @@ defmodule WebAuthnComponents.MixProject do
   defp docs do
     [
       main: "readme",
-      name: "WebAuthnComponents",
+      name: "WebauthnComponents",
       source_ref: "v#{@version}",
       canonical: "http://hexdocs.pm/webauthn_components",
       source_url: @source_url,

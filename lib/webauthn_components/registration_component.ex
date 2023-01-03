@@ -1,9 +1,9 @@
-defmodule WebAuthnComponents.RegistrationComponent do
+defmodule WebauthnComponents.RegistrationComponent do
   @moduledoc """
   A LiveComponent for registering a new Passkey via the WebAuthn API.
   """
   use Phoenix.LiveComponent
-  import WebAuthnComponents.Icons
+  import WebauthnComponents.Icons
   alias Wax.Challenge
 
   @type assigns :: %{
