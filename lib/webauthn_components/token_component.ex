@@ -72,4 +72,9 @@ defmodule WebauthnComponents.TokenComponent do
     send(socket.root_pid, {:token_cleared})
     {:noreply, socket}
   end
+
+  def handle_event("error", payload, socket) do
+    send(socket.root_pid, {:error, payload})
+    {:noreply, socket}
+  end
 end
