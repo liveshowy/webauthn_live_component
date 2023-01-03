@@ -1,6 +1,35 @@
 defmodule WebAuthnComponents.CoseKey do
   @moduledoc """
-  Custom type for WebAuthn cose keys.
+  Custom `Ecto.Type` for WebAuthn cose keys.
+
+  Use this type for the `:public_key` field in an Ecto schema.
+
+  ## Example
+
+  ```elixir
+  defmodule MyApp.Authentication.UserKey do
+    use Ecto.Schema
+    import Ecto.Changeset
+    alias MyApp.Accounts.User
+    alias WebAuthnComponents.CoseKey
+
+    @primary_key {:id, :binary_id, autogenerate: true}
+    @foreign_key_type :binary_id
+    @derive {Jason.Encoder, only: [:key_id, :public_key, :label, :last_used]}
+    schema "user_keys" do
+      field :label, :string, default: "default"
+      field :key_id, :binary
+      field :user_handle, :binary
+      field :public_key, CoseKey
+      belongs_to :user, User
+      field :last_used, :utc_datetime
+
+      timestamps()
+    end
+
+    ...
+  end
+  ```
   """
   use Ecto.Type
 
