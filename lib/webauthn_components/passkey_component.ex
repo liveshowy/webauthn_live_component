@@ -204,16 +204,6 @@ defmodule WebAuthnComponents.PasskeyComponent do
     """
   end
 
-  def handle_event("passkeys-supported", boolean, socket) do
-    send(socket.root_pid, {:passkeys_supported, boolean})
-
-    {
-      :noreply,
-      socket
-      |> assign(:passkeys_supported, !!boolean)
-    }
-  end
-
   def handle_event("token-exists", payload, socket) do
     %{"token" => token} = payload
     send(socket.root_pid, {:token_exists, token: token})
