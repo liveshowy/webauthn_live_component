@@ -1,3 +1,5 @@
+import { handleError } from "./utils";
+
 const TokenHook = {
   abortController: new AbortController(),
 
@@ -50,7 +52,7 @@ const TokenHook = {
       context.pushEventTo(context.el, "token-stored", { token });
     } catch (error) {
       console.error(error);
-      this.handleError(error, context);
+      handleError(error, context);
     }
   },
 
@@ -62,14 +64,8 @@ const TokenHook = {
       context.pushEventTo(context.el, "token-cleared", null);
     } catch (error) {
       console.error(error);
-      this.handleError(error, context);
+      handleError(error, context);
     }
-  },
-
-  handleError(error, context) {
-    console.error(`WebAuthn error:`, error);
-    const { message, name, stack } = error;
-    context.pushEventTo(context.el, "error", { message, name, stack });
   },
 };
 
