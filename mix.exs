@@ -3,7 +3,7 @@ defmodule WebAuthnComponents.MixProject do
 
   # Don't forget to change the version in `package.json`
   @source_url "https://github.com/liveshowy/webauthn_components"
-  @version "0.2.2"
+  @version "0.3.0"
 
   def project do
     [
@@ -47,7 +47,7 @@ defmodule WebAuthnComponents.MixProject do
   defp docs do
     [
       main: "readme",
-      name: "WebAuthn LiveComponent",
+      name: "WebAuthnComponents",
       source_ref: "v#{@version}",
       canonical: "http://hexdocs.pm/webauthn_components",
       source_url: @source_url,
