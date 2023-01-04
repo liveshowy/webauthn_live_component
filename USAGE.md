@@ -1,6 +1,6 @@
 # Usage
 
-`WebauthnComponents` are designed to be modular, allowing flexibility to developers. However, `SupportComponent` should always be rendered along with `RegistrationComponent` and `AuthenticationComponent` to detect WebAuthn support on the client.
+`WebauthnComponents` are designed to be modular, providing flexibility to developers. However, `SupportComponent` should always be rendered along with `RegistrationComponent` and `AuthenticationComponent` to detect WebAuthn support on the client.
 
 A parent LiveView may also want to redirect users or clear tokens when users enter a page using the registration or authentication component. In these cases, render `TokenComponent` and implement its required message handlers to manage client-side session tokens.
 
@@ -16,12 +16,12 @@ A parent LiveView may also want to redirect users or clear tokens when users ent
 
 ## Combined Example
 
-  For userless registration, meaning no user exists, render `SupportHook` before rendering `RegistrationComponent`. Message handlers must be implemented as described in [Messages](#module-messages).
+The following `AuthLive` example demonstrates how to compose the components to detect support, register, authenticate, and manage tokens in a single LiveView.
 
 <!-- TODO: Render auth and token components, add handlers -->
 
 ```elixir
-defmodule MyAppWeb.RegistrationLive do
+defmodule MyAppWeb.AuthLive do
   use Phoenix.LiveView
   alias WebauthnComponents.AuthenticationComponent
   alias WebauthnComponents.RegistrationComponent
