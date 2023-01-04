@@ -51,7 +51,7 @@ defmodule WebauthnComponents.MixProject do
       source_ref: "v#{@version}",
       canonical: "http://hexdocs.pm/webauthn_components",
       source_url: @source_url,
-      extras: ["README.md"]
+      extras: ["README.md", "USAGE.md"]
     ]
   end
 
