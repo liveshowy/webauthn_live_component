@@ -89,8 +89,24 @@ end
 
 ## SupportComponent
 
+On its own, `SupportComponent` only reports whether the WebAuthn API is supported and enabled by the client. This may be useful for redirecting users away from traditional authentication for businesses mandating Passkey usage whenever possible.
+
+<!-- TODO: Add example SupportComponent code -->
+
 ## TokenComponent
+
+`TokenComponent` manages the client-side session token, allowing the parent LiveView to do the following:
+
+- Redirect when a user is already signed in.
+- Store a new token upon registration or authentication.
+- Clear a token upon sign-out.
+
+<!-- TODO: Add example TokenComponent code -->
 
 ## RegistrationComponent
 
+<!-- TODO: Add example RegistrationComponent code -->
+
 ## Authentication Component
+
+<!-- TODO: Add example AuthenticationComponent code -->
