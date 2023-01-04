@@ -22,8 +22,15 @@ const RegistrationHook = {
 
   async handleRegistration(event, context) {
     try {
-      const { attestation, challenge, excludeCredentials, rp, timeout, user } =
-        event.detail;
+      const {
+        attestation,
+        challenge,
+        excludeCredentials,
+        requireResidentKey,
+        rp,
+        timeout,
+        user,
+      } = event.detail;
       const challengeArray = base64ToArray(challenge);
 
       user.id = base64ToArray(user.id).buffer;
@@ -32,7 +39,7 @@ const RegistrationHook = {
         attestation,
         authenticatorSelection: {
           authenticatorAttachment: "platform",
-          requireResidentKey: true,
+          requireResidentKey: requireResidentKey,
         },
         challenge: challengeArray.buffer,
         excludeCredentials,
