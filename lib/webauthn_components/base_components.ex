@@ -1,7 +1,5 @@
 defmodule WebauthnComponents.BaseComponents do
-  @moduledoc """
-  Components for building other components.
-  """
+  @moduledoc false
   use Phoenix.Component
 
   attr :id, :string
