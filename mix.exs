@@ -50,6 +50,7 @@ defmodule WebauthnComponents.MixProject do
       name: "WebauthnComponents",
       source_ref: "v#{@version}",
       canonical: "http://hexdocs.pm/webauthn_components",
+      nest_modules_by_prefix: [WebauthnComponents],
       source_url: @source_url,
       extras: ["README.md", "USAGE.md"]
     ]
