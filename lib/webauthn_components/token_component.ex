@@ -1,6 +1,14 @@
 defmodule WebauthnComponents.TokenComponent do
   @moduledoc """
   A LiveComponent for handling session tokens.
+
+  See [USAGE.md](./USAGE.md) for example code.
+
+  ## Assigns
+
+  ## Events
+
+  ## Messages
   """
   use Phoenix.LiveComponent
 

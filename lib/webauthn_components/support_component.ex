@@ -1,6 +1,14 @@
 defmodule WebauthnComponents.SupportComponent do
   @moduledoc """
   A LiveComponent for detecting WebAuthn support.
+
+  See [USAGE.md](./USAGE.md) for example code.
+
+  ## Assigns
+
+  ## Events
+
+  ## Messages
   """
   use Phoenix.LiveComponent
 

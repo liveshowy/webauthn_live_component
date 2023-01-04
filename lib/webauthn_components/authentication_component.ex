@@ -1,6 +1,14 @@
 defmodule WebauthnComponents.AuthenticationComponent do
   @moduledoc """
   A LiveComponent for authentication via WebAuthn API.
+
+  See [USAGE.md](./USAGE.md) for example code.
+
+  ## Assigns
+
+  ## Events
+
+  ## Messages
   """
   use Phoenix.LiveComponent
   import WebauthnComponents.IconComponents
