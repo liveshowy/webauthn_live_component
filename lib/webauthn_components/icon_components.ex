@@ -1,9 +1,8 @@
 defmodule WebauthnComponents.IconComponents do
-  @moduledoc """
-  A Component for rendering icons.
-  """
+  @moduledoc false
   use Phoenix.Component
 
+  @doc false
   def icon_key(assigns) do
     ~H"""
     <svg
@@ -23,6 +22,7 @@ defmodule WebauthnComponents.IconComponents do
     """
   end
 
+  @doc false
   def icon_info_circle(assigns) do
     ~H"""
     <svg

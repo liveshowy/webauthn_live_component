@@ -15,6 +15,7 @@ defmodule WebauthnComponents.BaseComponents do
 
   slot :inner_block, required: true
 
+  @doc false
   def button(assigns) do
     ~H"""
     <button type={@type} class={@class} {@rest}>
