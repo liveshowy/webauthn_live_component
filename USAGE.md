@@ -18,11 +18,15 @@ A parent LiveView may also want to redirect users or clear tokens when users ent
 
   For userless registration, meaning no user exists, render `SupportHook` before rendering `RegistrationComponent`. Message handlers must be implemented as described in [Messages](#module-messages).
 
+<!-- TODO: Render auth and token components, add handlers -->
+
 ```elixir
 defmodule MyAppWeb.RegistrationLive do
   use Phoenix.LiveView
+  alias WebauthnComponents.AuthenticationComponent
   alias WebauthnComponents.RegistrationComponent
   alias WebauthnComponents.SupportComponent
+  alias WebauthnComponents.TokenComponent
 
   def mount(_session, _params, socket) do
     {
