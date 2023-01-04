@@ -2,6 +2,12 @@ defmodule WebauthnComponents.TokenComponent do
   @moduledoc """
   A LiveComponent for handling session tokens.
 
+  `TokenComponent` manages the client-side session token, allowing the parent LiveView to do the following:
+
+  - Redirect when a user is already signed in.
+  - Store a new token upon registration or authentication.
+  - Clear a token upon sign-out.
+
   See [USAGE.md](./USAGE.md) for example code.
 
   ## Assigns

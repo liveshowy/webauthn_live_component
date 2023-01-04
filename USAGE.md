@@ -95,12 +95,6 @@ On its own, `SupportComponent` only reports whether the WebAuthn API is supporte
 
 ## TokenComponent
 
-`TokenComponent` manages the client-side session token, allowing the parent LiveView to do the following:
-
-- Redirect when a user is already signed in.
-- Store a new token upon registration or authentication.
-- Clear a token upon sign-out.
-
 <!-- TODO: Add example TokenComponent code -->
 
 ## RegistrationComponent
