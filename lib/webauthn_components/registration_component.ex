@@ -1,6 +1,36 @@
 defmodule WebauthnComponents.RegistrationComponent do
   @moduledoc """
   A LiveComponent for registering a new Passkey via the WebAuthn API.
+
+  Registration is the process of creating and associating a new key with a user account. Depending on your implementation, a new user may register a new account using only a Passkey, which does not require username or email.
+
+  Existing users may also register additional keys for backup, survivorship, sharing, or other purposes. Your application may set limits on how many keys are associated with an account based on business concerns.
+
+  ## LiveView Communication
+
+  This component handles communication between the client, manages its own state, and communicates with the parent LiveView when registration is successful. Errors are also reported to the parent LiveView when the client pushes an error, or when registration fails.
+
+  The following messages must be handled by the parent LiveView using [`Phoenix.LiveView.handle_info/2`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:handle_info/2):
+
+  - `{:registration_successful, key_id: raw_id, public_key: public_key, user_handle: user_handle}`
+    - `:key_id` is a raw binary containing the credential id created by the browser.
+    - `:public_key` is a map of raw binaries which may be used later for authentication.
+    - `:user_handle` is a raw binary representing the provided user id, or a randomly generated uuid.
+    - These values must be persisted by the parent application in order to be used later during authentication.
+  - `{:registration_failure, message: message}`
+    - `:message` is an exception message returned by Wax when registration fails.
+  - `{:error, payload}`
+    - `payload` contains the `message`, `name`, and `stack` returned by the browser upon timeout or other client-side errors.
+
+  Errors should be displayed to the user via [`Phoenix.LiveView.put_flash/3`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#put_flash/3). However, some errors may be too technical or cryptic to be useful to users, so the parent LiveView may paraphrase the message for clarity.
+
+  ## Events
+
+  The following events are handled internally by `RegistrationComponent`:
+
+  - `"register"` is triggered when a user clicks the button.
+  - `"registration-attestation"` is triggered when the client pushes a registration attestation.
+  - `"error"` is triggered when the client pushes an error payload.
   """
   use Phoenix.LiveComponent
   import WebauthnComponents.IconComponents
