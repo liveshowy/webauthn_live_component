@@ -3,30 +3,35 @@ defmodule WebauthnComponents.AuthenticationComponent do
   A LiveComponent for authentication via WebAuthn API.
   """
   use Phoenix.LiveComponent
-  import WebauthnComponents.Icons
+  import WebauthnComponents.IconComponents
+  import WebauthnComponents.BaseComponents
 
   def mount(socket) do
     {
       :ok,
       socket
+      |> assign(:challenge, fn -> nil end)
+      |> assign_new(:user, fn -> nil end)
+      |> assign_new(:class, fn -> nil end)
+      |> assign_new(:disabled, fn -> nil end)
     }
   end
 
   def render(assigns) do
     ~H"""
-    <button
+    <.button
       id="authentication-component"
       phx-hook="AuthenticationHook"
       phx-target={@myself}
       type="button"
       phx-click="authenticate"
-      class={@button_class}
+      class={@class}
       title="Use an existing account"
-      disabled={@passkeys_supported == false}
+      disabled={@disabled}
     >
       <span class="w-4 opacity-70"><.icon_key /></span>
       <span>Authenticate</span>
-    </button>
+    </.button>
     """
   end
 

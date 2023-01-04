@@ -3,7 +3,8 @@ defmodule WebauthnComponents.RegistrationComponent do
   A LiveComponent for registering a new Passkey via the WebAuthn API.
   """
   use Phoenix.LiveComponent
-  import WebauthnComponents.Icons
+  import WebauthnComponents.IconComponents
+  import WebauthnComponents.BaseComponents
   alias Wax.Challenge
 
   @type assigns :: %{
@@ -17,24 +18,25 @@ defmodule WebauthnComponents.RegistrationComponent do
       socket
       |> assign(:challenge, fn -> nil end)
       |> assign_new(:user, fn -> nil end)
+      |> assign_new(:class, fn -> nil end)
+      |> assign_new(:disabled, fn -> nil end)
     }
   end
 
   def render(assigns) do
     ~H"""
-    <button
+    <.button
       id="registration-component"
       phx-hook="RegistrationHook"
       phx-target={@myself}
-      type="button"
       phx-click="register"
-      class={@button_class}
+      class={@class}
       title="Create a new account"
-      disabled={@passkeys_supported == false}
+      disabled={@disabled}
     >
       <span class="w-4 opacity-70"><.icon_key /></span>
       <span>Register</span>
-    </button>
+    </.button>
     """
   end
 

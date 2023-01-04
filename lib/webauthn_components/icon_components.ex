@@ -1,4 +1,4 @@
-defmodule WebauthnComponents.Icons do
+defmodule WebauthnComponents.IconComponents do
   @moduledoc """
   A Component for rendering icons.
   """
