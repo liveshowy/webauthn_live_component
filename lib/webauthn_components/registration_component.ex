@@ -6,11 +6,29 @@ defmodule WebauthnComponents.RegistrationComponent do
 
   Existing users may also register additional keys for backup, survivorship, sharing, or other purposes. Your application may set limits on how many keys are associated with an account based on business concerns.
 
-  ## LiveView Communication
+  See [USAGE.md](./USAGE.md) for example code.
+
+  ## Assigns
+
+  - `@user`: (Optional) A map or struct containing an `id`, `username` or `email`, and `display_name`. If no user is provided, a random `id` will be generated, which will be encoded as the `user_handle` during registration.
+  - `@class` (Optional) CSS classes for overriding the default button style.
+  - `@disabled` (Optional) Set to `true` when the `SupportHook` indicates WebAuthn is not supported or enabled by the browser. Defaults to `false`.
+  - `@require_resident_key` (Optional) Set to `false` to allow non-passkey credentials. Defaults to `true`.
+
+  ## Events
+
+  The following events are handled internally by `RegistrationComponent`:
+
+  - `"register"`: Triggered when a user clicks the button.
+  - `"passkey-registration"`: Sent from the component to the client to request registration.
+  - `"registration-attestation"` is triggered when the client pushes a registration attestation.
+  - `"error"` is triggered when the client pushes an error payload.
+
+  ## Messages
 
   This component handles communication between the client, manages its own state, and communicates with the parent LiveView when registration is successful. Errors are also reported to the parent LiveView when the client pushes an error, or when registration fails.
 
-  The following messages must be handled by the parent LiveView using [`Phoenix.LiveView.handle_info/2`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:handle_info/2):
+  The following messages **must be handled by the parent LiveView** using [`Phoenix.LiveView.handle_info/2`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:handle_info/2):
 
   - `{:registration_successful, key_id: raw_id, public_key: public_key, user_handle: user_handle}`
     - `:key_id` is a raw binary containing the credential id created by the browser.
@@ -23,24 +41,10 @@ defmodule WebauthnComponents.RegistrationComponent do
     - `payload` contains the `message`, `name`, and `stack` returned by the browser upon timeout or other client-side errors.
 
   Errors should be displayed to the user via [`Phoenix.LiveView.put_flash/3`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#put_flash/3). However, some errors may be too technical or cryptic to be useful to users, so the parent LiveView may paraphrase the message for clarity.
-
-  ## Events
-
-  The following events are handled internally by `RegistrationComponent`:
-
-  - `"register"` is triggered when a user clicks the button.
-  - `"registration-attestation"` is triggered when the client pushes a registration attestation.
-  - `"error"` is triggered when the client pushes an error payload.
   """
   use Phoenix.LiveComponent
   import WebauthnComponents.IconComponents
   import WebauthnComponents.BaseComponents
-  alias Wax.Challenge
-
-  @type assigns :: %{
-          user: struct() | map() | nil,
-          challenge: Challenge.t() | nil
-        }
 
   def mount(socket) do
     {
@@ -49,7 +53,8 @@ defmodule WebauthnComponents.RegistrationComponent do
       |> assign(:challenge, fn -> nil end)
       |> assign_new(:user, fn -> nil end)
       |> assign_new(:class, fn -> nil end)
-      |> assign_new(:disabled, fn -> nil end)
+      |> assign_new(:disabled, fn -> false end)
+      |> assign_new(:require_resident_key, fn -> true end)
     }
   end
 
@@ -73,9 +78,16 @@ defmodule WebauthnComponents.RegistrationComponent do
   def handle_event("register", _params, socket) do
     %{endpoint: endpoint} = socket
     app_name = socket.assigns[:app]
+    user = socket.assigns[:user]
+    require_resident_key = socket.assigns[:require_resident_key]
     attestation = "none"
 
-    user_handle = :crypto.strong_rand_bytes(64)
+    user_handle =
+      if user do
+        user.id
+      else
+        :crypto.strong_rand_bytes(64)
+      end
 
     user = %{
       id: Base.encode64(user_handle, padding: false),
@@ -95,6 +107,7 @@ defmodule WebauthnComponents.RegistrationComponent do
       attestation: attestation,
       challenge: Base.encode64(challenge.bytes, padding: false),
       excludeCredentials: [],
+      require_resident_key: require_resident_key,
       rp: %{
         id: challenge.rp_id,
         name: app_name
