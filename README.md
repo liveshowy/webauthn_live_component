@@ -1,12 +1,14 @@
 # WebauthnComponents
 
-A drop-in LiveComponent for password-less authentication.
+A collection of drop-in LiveComponents for password-less authentication.
 
-### 🚨 Status 🚨
-
-This package is a **work in progress**, and it is in early alpha status. Feel free to experiment with this package and contribute feedback through [GitHub discussions](https://github.com/liveshowy/webauthn_components/discussions).
+### Status: Beta 💅🏻
 
 Please **do not use WebauthnComponents in a production environment** until it has completed _beta_ testing.
+
+This package is a **work in progress**, and it is in early beta status.
+
+Feel free to experiment with this package and contribute feedback through [GitHub discussions](https://github.com/liveshowy/webauthn_components/discussions) or the related topic in [Elixir Forum](https://elixirforum.com/t/webauthnlivecomponent-passwordless-auth-for-liveview-apps/49941).
 
 ## Roadmap
 
@@ -32,7 +34,6 @@ During the beta phase, generators will be added to streamline initial setup, inc
    - Add `foreign_key_constraint` `:user_id`
    - Add token helper functions (TODO)
 1. Update `User` and/or relevant schemas to include keys association (TODO)
-1. Run Mix task to add component config (TODO)
 
 ### Installation
 
