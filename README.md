@@ -61,6 +61,7 @@ See module documentation for each component for more detailed descriptions.
 
 ```mermaid
 sequenceDiagram
+   autonumber
    participant Client
    participant SupportComponent
    participant ParentLiveView
@@ -79,6 +80,7 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
+   autonumber
    actor User
    participant Client
    participant RegistrationComponent
@@ -99,6 +101,7 @@ Once the parent LiveView receives the `{:registration_successful, ...}` message,
 
 ```mermaid
 sequenceDiagram
+   autonumber
    participant Client
    participant TokenComponent
    participant ParentLiveView
@@ -113,6 +116,7 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
+   autonumber
    participant Client
    participant TokenComponent
    participant ParentLiveView
@@ -126,6 +130,7 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
+   autonumber
    participant Client
    participant TokenComponent
    participant ParentLiveView
@@ -142,6 +147,7 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
+   autonumber
    actor User
    participant Client
    participant AuthenticationComponent
