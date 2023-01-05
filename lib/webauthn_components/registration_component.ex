@@ -2,6 +2,8 @@ defmodule WebauthnComponents.RegistrationComponent do
   @moduledoc """
   A LiveComponent for registering a new Passkey via the WebAuthn API.
 
+  > Registration = Sign Up
+
   Registration is the process of creating and associating a new key with a user account. Depending on your implementation, a new user may register a new account using only a Passkey, which does not require username or email.
 
   Existing users may also register additional keys for backup, survivorship, sharing, or other purposes. Your application may set limits on how many keys are associated with an account based on business concerns.
@@ -10,6 +12,7 @@ defmodule WebauthnComponents.RegistrationComponent do
 
   ## Assigns
 
+  - `@challenge`: (Internal) A `Wax.Challenge` struct created by the component, used to create a new credential request in the client.
   - `@user`: (Optional) A map or struct containing an `id`, `username` or `email`, and `display_name`. If no user is provided, a random `id` will be generated, which will be encoded as the `user_handle` during registration.
   - `@class` (Optional) CSS classes for overriding the default button style.
   - `@disabled` (Optional) Set to `true` when the `SupportHook` indicates WebAuthn is not supported or enabled by the browser. Defaults to `false`.
@@ -19,8 +22,8 @@ defmodule WebauthnComponents.RegistrationComponent do
 
   The following events are handled internally by `RegistrationComponent`:
 
-  - `"register"`: Triggered when a user clicks the button.
-  - `"passkey-registration"`: Sent from the component to the client to request registration.
+  - `"register"`: Triggered when a user clicks the `register` button.
+  - `"passkey-registration"`: Sent from the component to the client to request credential registration for the endpoint URL.
   - `"registration-attestation"` Sent by the client when a registration attestation has been created.
   - `"error"` Sent by the client when an error occurs.
 

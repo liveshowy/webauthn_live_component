@@ -14,7 +14,7 @@ defmodule WebauthnComponents.TokenComponent do
 
   - `@token`: A Base64-encoded session token to be stored in the client.
 
-  The parent LiveView may use `Phoenix.LiveView.send_update/3` to set or clear a token in the client.
+  The parent LiveView may use [`Phoenix.LiveView.send_update/3`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#send_update/3) to set or clear a token in the client.
 
   ### Clear a Token
 
