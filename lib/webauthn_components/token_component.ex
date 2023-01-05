@@ -12,9 +12,29 @@ defmodule WebauthnComponents.TokenComponent do
 
   ## Assigns
 
+  - `@token`: A Base64-encoded session token to be stored in the client.
+
   ## Events
 
+  The following events are handled internally by `TokenComponent`:
+
+  - `"token-exists"`: Sent by the client when `sessionStorage` contains a `userToken`.
+  - `"token-stored"`: Sent by the client when a token has been stored in `sessionStorage`.
+  - `"token-cleared"`: Sent by the client when a token has been cleared frmo `sessionStorage`.
+  - `"error"`: Sent by the client when an error occurs.
+
   ## Messages
+
+  - `{:token_exists, token: token}`
+    - `:token` is a Base64-encoded token found by the client.
+    - The parent LiveView may use this token to authenticate users.
+  - `{:token_stored, token: token}`
+    - `:token` is a Base64-encoded token found by the client.
+    - The parent LiveView may compare the returned token against the token sent to the component to ensure there has been no tampering.
+  - `{:token_cleared}`
+    - A token has been cleared from the client.
+  - `{:error, payload}`
+    - `payload` contains the `message`, `name`, and `stack` returned by the browser upon timeout or other client-side errors.
   """
   use Phoenix.LiveComponent
 
