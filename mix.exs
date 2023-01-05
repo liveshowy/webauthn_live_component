@@ -3,7 +3,7 @@ defmodule WebauthnComponents.MixProject do
 
   # Don't forget to change the version in `package.json`
   @source_url "https://github.com/liveshowy/webauthn_components"
-  @version "0.3.0"
+  @version "0.4.0"
 
   def project do
     [
@@ -48,10 +48,12 @@ defmodule WebauthnComponents.MixProject do
     [
       main: "readme",
       name: "WebauthnComponents",
+      formatters: ["html"],
       source_ref: "v#{@version}",
       canonical: "http://hexdocs.pm/webauthn_components",
       nest_modules_by_prefix: [WebauthnComponents],
       source_url: @source_url,
+      before_closing_body_tag: &before_closing_body_tag/1,
       extras: ["README.md", "USAGE.md"]
     ]
   end
@@ -72,4 +74,30 @@ defmodule WebauthnComponents.MixProject do
       maintainers: ["Owen Bickford"]
     ]
   end
+
+  defp before_closing_body_tag(:html) do
+    """
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.13.3/dist/mermaid.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        mermaid.initialize({ startOnLoad: false });
+        let id = 0;
+        for (const codeEl of document.querySelectorAll("pre code.mermaid")) {
+          const preEl = codeEl.parentElement;
+          const graphDefinition = codeEl.textContent;
+          const graphEl = document.createElement("div");
+          const graphId = "mermaid-graph-" + id++;
+          mermaid.render(graphId, graphDefinition, function (svgSource, bindListeners) {
+            graphEl.innerHTML = svgSource;
+            bindListeners && bindListeners(graphEl);
+            preEl.insertAdjacentElement("afterend", graphEl);
+            preEl.remove();
+          });
+        }
+      });
+    </script>
+    """
+  end
+
+  defp before_closing_body_tag(_), do: ""
 end
