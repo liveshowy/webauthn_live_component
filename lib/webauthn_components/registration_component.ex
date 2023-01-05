@@ -21,8 +21,8 @@ defmodule WebauthnComponents.RegistrationComponent do
 
   - `"register"`: Triggered when a user clicks the button.
   - `"passkey-registration"`: Sent from the component to the client to request registration.
-  - `"registration-attestation"` is triggered when the client pushes a registration attestation.
-  - `"error"` is triggered when the client pushes an error payload.
+  - `"registration-attestation"` Sent by the client when a registration attestation has been created.
+  - `"error"` Sent by the client when an error occurs.
 
   ## Messages
 
