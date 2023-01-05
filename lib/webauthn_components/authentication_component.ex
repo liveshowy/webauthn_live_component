@@ -2,13 +2,34 @@ defmodule WebauthnComponents.AuthenticationComponent do
   @moduledoc """
   A LiveComponent for authentication via WebAuthn API.
 
+  > Authentication = Sign In
+
+  Authentication is the process of matching a registered key to an existing user.
+
   See [USAGE.md](./USAGE.md) for example code.
 
   ## Assigns
 
+  - `@challenge`: (Internal) A `Wax.Challenge` struct created by the component, used to request an existing credential in the client.
+  - `@class` (Optional) CSS classes for overriding the default button style.
+  - `@disabled` (Optional) Set to `true` when the `SupportHook` indicates WebAuthn is not supported or enabled by the browser. Defaults to `false`.
+
   ## Events
 
+  - `"authenticate"`: Triggered when a user clicks the `authenticate` button.
+  - `"passkey-authentication"`: Sent from the component to the client to request an existing credential registered to the endpoint URL.
+  - `"authentication-attestation"`: Sent by the client when a credential has been registered to the endpoint URL and activated by the user.
+  - `"error"` Sent by the client when an error occurs.
+
   ## Messages
+
+  - `{:find_credentials, user_handle: user_handle}`
+    - `user_handle` is a raw binary representing the user id or random id stored in the credential during registration.
+    - The parent LiveView must successfully lookup the user with this data before storing a token and redirecting to another view.
+  - `{:error, payload}`
+    - `payload` contains the `message`, `name`, and `stack` returned by the browser upon timeout or other client-side errors.
+
+    Errors should be displayed to the user via [`Phoenix.LiveView.put_flash/3`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#put_flash/3). However, some errors may be too technical or cryptic to be useful to users, so the parent LiveView may paraphrase the message for clarity.
   """
   use Phoenix.LiveComponent
   import WebauthnComponents.IconComponents
@@ -19,7 +40,6 @@ defmodule WebauthnComponents.AuthenticationComponent do
       :ok,
       socket
       |> assign(:challenge, fn -> nil end)
-      |> assign_new(:user, fn -> nil end)
       |> assign_new(:class, fn -> nil end)
       |> assign_new(:disabled, fn -> nil end)
     }
