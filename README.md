@@ -51,7 +51,7 @@ end
 
 See `WebauthnComponents` for detailed usage instructions.
 
-### Workflows
+### WebAuthn Flows
 
 `WebauthnComponents` contains a few modular components which may be combined to detect passkey support, register new keys, authenticate keys for existing users, and manage session tokens in the client.
 
