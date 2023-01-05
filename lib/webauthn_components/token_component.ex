@@ -14,6 +14,20 @@ defmodule WebauthnComponents.TokenComponent do
 
   - `@token`: A Base64-encoded session token to be stored in the client.
 
+  The parent LiveView may use `Phoenix.LiveView.send_update/3` to set or clear a token in the client.
+
+  ### Clear a Token
+
+  ```elixir
+  send_update(TokenComponent, id: "token-component", token: :clear)
+  ```
+
+  ### Store a Token
+
+  ```elixir
+  send_update(TokenComponent, id: "token-component", token: base64_encoded_token)
+  ```
+
   ## Events
 
   The following events are handled internally by `TokenComponent`:
