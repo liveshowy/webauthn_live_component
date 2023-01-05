@@ -29,7 +29,7 @@ defmodule WebauthnComponents.TokenComponent do
     - `:token` is a Base64-encoded token found by the client.
     - The parent LiveView may use this token to authenticate users.
   - `{:token_stored, token: token}`
-    - `:token` is a Base64-encoded token found by the client.
+    - `:token` is a Base64-encoded token stored by the client.
     - The parent LiveView may compare the returned token against the token sent to the component to ensure there has been no tampering.
   - `{:token_cleared}`
     - A token has been cleared from the client.
