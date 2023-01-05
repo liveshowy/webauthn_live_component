@@ -50,6 +50,38 @@ end
 
 See `WebauthnComponents` for detailed usage instructions.
 
+### Workflows
+
+`WebauthnComponents` contains a few modular components which may be combined to detect passkey support, register new keys, authenticate keys for existing users, and manage session tokens in the client.
+
+#### Support Detection
+
+```mermaid
+sequenceDiagram
+   actor User
+   participant Client
+   participant SupportComponent
+   participant ParentLiveView
+```
+
+#### Registration
+
+```mermaid
+sequenceDiagram
+   actor User
+   participant Client
+   participant RegistrationComponent
+   participant ParentLiveView
+
+   User-->>Client: Click `register`
+   Client-->>RegistrationComponent: "register"
+   RegistrationComponent-->>Client: "passkey-registration"
+   Client-->>RegistrationComponent: "registration-attestation"
+   RegistrationComponent-->>ParentLiveView: `{:registration_successful, ...}`
+```
+
+Once the parent LiveView receives the `{:registration_successful, ...}` message, it must persist the user, the user's new key. To keep the user signed in, the LiveView may create a session token, Base64-encode the token, and pass it to `TokenComponent` for persistence in the client's `sessionStorage`.
+
 ## WebAuthn & Passkeys
 
 > The Web Authentication API is an extension of the Credential Management API that enables strong authentication with public key cryptography, enabling passwordless authentication and/or secure second-factor authentication without SMS texts.
