@@ -37,7 +37,7 @@ defmodule WebauthnComponents.SupportComponent do
     """
   end
 
-  def handle_event("passkeys-supported", boolean, socket) do
+  def handle_event("passkeys-supported", boolean, socket) when is_boolean(boolean) do
     send(socket.root_pid, {:passkeys_supported, boolean})
 
     {
