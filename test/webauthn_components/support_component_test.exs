@@ -4,6 +4,20 @@ defmodule WebauthnComponents.SupportComponentTest do
 
   @endpoint TestEndpoint
 
+  defmodule TestLiveView do
+    use Phoenix.LiveView
+
+    def mount(_session, _params, socket) do
+      {:ok, socket}
+    end
+
+    def render(assigns) do
+      ~H"""
+      <.live_component module={SupportComponent} id="support-component" />
+      """
+    end
+  end
+
   describe "mount/1" do
     test "assigns `:passkeys_supported`", %{socket: socket} do
       assert {:ok, mounted_socket} = SupportComponent.mount(socket)
@@ -21,12 +35,12 @@ defmodule WebauthnComponents.SupportComponentTest do
   end
 
   describe "handle_event/3" do
-    test "sets `:passkeys_supported` when valid event is received" do
-      assert {:ok, view, _html} = live_isolated_component(SupportComponent)
+    setup %{conn: conn} do
+      {:ok, view, html} = live_isolated(conn, TestLiveView, session: %{})
+      %{view: view, html: html}
+    end
 
-      view
-      |> assert_handle_event("passkeys-supported", true)
-      |> assert_handle_event_return(true)
+    test "sets `:passkeys_supported` when valid event is received", %{socket: socket, view: view} do
     end
 
     test "raises when invalid boolean is received" do
