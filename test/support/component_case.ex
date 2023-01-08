@@ -8,15 +8,15 @@ defmodule ComponentCase do
   end
 
   setup do
+    conn = Phoenix.ConnTest.build_conn()
     socket = %Phoenix.LiveView.Socket{}
-    %{socket: socket}
+    %{conn: conn, socket: socket}
   end
 
   using do
     quote do
       import Phoenix.LiveViewTest
       import Phoenix.LiveView.Helpers
-      import LiveIsolatedComponent
     end
   end
 end
