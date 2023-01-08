@@ -1,13 +1,8 @@
 defmodule WebauthnComponents.SupportComponentTest do
-  use ExUnit.Case, async: true
-  import Phoenix.LiveViewTest
+  use ComponentCase, async: true
   alias WebauthnComponents.SupportComponent
 
-  setup_all do
-    socket = %Phoenix.LiveView.Socket{}
-
-    %{socket: socket}
-  end
+  @endpoint TestEndpoint
 
   describe "mount/1" do
     test "assigns `:passkeys_supported`", %{socket: socket} do
@@ -26,9 +21,12 @@ defmodule WebauthnComponents.SupportComponentTest do
   end
 
   describe "handle_event/3" do
-    test "sets `:passkeys_supported` when valid event is received", %{socket: socket} do
-      {:ok, mounted_socket} = SupportComponent.mount(socket)
-      # assert_push_event(mounted_socket, "passkeys-supported", true)
+    test "sets `:passkeys_supported` when valid event is received" do
+      assert {:ok, view, _html} = live_isolated_component(SupportComponent)
+
+      view
+      |> assert_handle_event("passkeys-supported", true)
+      |> assert_handle_event_return(true)
     end
 
     test "raises when invalid boolean is received" do
