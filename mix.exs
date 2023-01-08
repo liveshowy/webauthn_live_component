@@ -35,7 +35,9 @@ defmodule WebauthnComponents.MixProject do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.24", only: [:dev], runtime: false},
+      {:floki, "~> 0.34.0", only: [:test]},
       {:jason, "~> 1.0"},
+      {:live_isolated_component, "~> 0.6", only: [:test]},
       {:phoenix, "~> 1.6"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_live_view, "~> 0.17"},
