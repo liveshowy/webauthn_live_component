@@ -49,7 +49,7 @@ end
 
 ### Usage
 
-See `WebauthnComponents` for detailed usage instructions.
+See [USAGE.md](./USAGE.md) for detailed usage instructions.
 
 ### WebAuthn Flows
 
