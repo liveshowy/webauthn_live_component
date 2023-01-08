@@ -40,7 +40,7 @@ defmodule WebauthnComponents.SupportComponentTest do
       %{view: view, html: html}
     end
 
-    test "sets `:passkeys_supported` when valid event is received", %{socket: socket, view: view} do
+    test "sets `:passkeys_supported` when valid event is received" do
     end
 
     test "raises when invalid boolean is received" do
