@@ -47,4 +47,9 @@ defmodule WebauthnComponents.SupportComponent do
       |> assign(:passkeys_supported, !!boolean)
     }
   end
+
+  def handle_event(event, payload, socket) do
+    send(socket.root_pid, {:invalid_event, event, payload})
+    {:noreply, socket}
+  end
 end
