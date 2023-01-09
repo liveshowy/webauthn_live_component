@@ -36,13 +36,15 @@ defmodule WebauthnComponents.SupportComponentTest do
 
   describe "handle_event/3" do
     test "accepts valid event", %{view: view} do
+      # TODO: Figure out how to assert assign was changed - if possible
+
       assert view
              |> element("#support-component")
              |> render_hook("passkeys-supported", %{"supported" => true})
     end
 
     test "sends invalid event message to parent on invalid event" do
-      # TODO
+      # TODO: Figure out how to assert parent LV received the message
     end
   end
 end
