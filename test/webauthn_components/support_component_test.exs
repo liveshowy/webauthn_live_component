@@ -18,29 +18,23 @@ defmodule WebauthnComponents.SupportComponentTest do
     end
   end
 
-  describe "mount/1" do
-    test "assigns `:passkeys_supported`", %{socket: socket} do
-      assert {:ok, mounted_socket} = SupportComponent.mount(socket)
-      assert %{assigns: assigns} = mounted_socket
-      assert assigns.passkeys_supported == nil
-    end
+  setup %{conn: conn} do
+    {:ok, view, html} = live_isolated(conn, TestLiveView, session: %{})
+    %{view: view, html: html}
   end
 
   describe "render/1" do
-    test "returns element with id and phx hook" do
-      rendered_component = render_component(SupportComponent, [])
-      assert rendered_component =~ "id=\"support-component\""
-      assert rendered_component =~ "phx-hook=\"SupportHook\""
+    test "returns element with id and phx hook", %{html: html} do
+      assert html =~ "id=\"support-component\""
+      assert html =~ "phx-hook=\"SupportHook\""
     end
   end
 
   describe "handle_event/3" do
-    setup %{conn: conn} do
-      {:ok, view, html} = live_isolated(conn, TestLiveView, session: %{})
-      %{view: view, html: html}
-    end
-
-    test "sets `:passkeys_supported` when valid event is received" do
+    test "sets `:passkeys_supported` when valid event is received", %{view: view} do
+      assert view
+             |> element("#support-component")
+             |> render_hook("passkeys-supported", %{"supported" => true})
     end
 
     test "raises when invalid boolean is received" do
