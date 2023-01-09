@@ -127,4 +127,9 @@ defmodule WebauthnComponents.AuthenticationComponent do
     send(socket.root_pid, {:error, payload})
     {:noreply, socket}
   end
+
+  def handle_event(event, payload, socket) do
+    send(socket.root_pid, {:invalid_event, event, payload})
+    {:noreply, socket}
+  end
 end
