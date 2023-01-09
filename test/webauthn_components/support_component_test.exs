@@ -16,6 +16,10 @@ defmodule WebauthnComponents.SupportComponentTest do
       <.live_component module={SupportComponent} id="support-component" />
       """
     end
+
+    def handle_info(_message, socket) do
+      {:noreply, socket}
+    end
   end
 
   setup %{conn: conn} do
@@ -31,16 +35,14 @@ defmodule WebauthnComponents.SupportComponentTest do
   end
 
   describe "handle_event/3" do
-    test "sets `:passkeys_supported` when valid event is received", %{view: view} do
+    test "accepts valid event", %{view: view} do
       assert view
              |> element("#support-component")
              |> render_hook("passkeys-supported", %{"supported" => true})
     end
 
-    test "raises when invalid boolean is received" do
-    end
-
-    test "raises when invalid event is received" do
+    test "sends invalid event message to parent on invalid event" do
+      # TODO
     end
   end
 end
