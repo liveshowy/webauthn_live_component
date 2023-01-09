@@ -33,11 +33,12 @@ defmodule WebauthnComponents.SupportComponent do
 
   def render(assigns) do
     ~H"""
-    <span id="support-component" phx-hook="SupportHook"></span>
+    <span id="support-component" phx-hook="SupportHook" phx-target={@myself}></span>
     """
   end
 
-  def handle_event("passkeys-supported", boolean, socket) when is_boolean(boolean) do
+  def handle_event("passkeys-supported", %{"supported" => boolean}, socket)
+      when is_boolean(boolean) do
     send(socket.root_pid, {:passkeys_supported, boolean})
 
     {

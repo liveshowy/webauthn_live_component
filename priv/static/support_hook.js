@@ -8,7 +8,7 @@ const SupportHook = {
       console.error(`WebAuthn not supported or enabled.`);
     }
 
-    this.pushEventTo(this.el, "passkeys-supported", supported);
+    this.pushEventTo(this.el, "passkeys-supported", { supported });
   },
 };
 
