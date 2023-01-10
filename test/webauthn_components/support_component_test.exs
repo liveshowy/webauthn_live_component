@@ -34,8 +34,8 @@ defmodule WebauthnComponents.SupportComponentTest do
     end
   end
 
-  describe "handle_event/3" do
-    test "accepts valid event", %{view: view} do
+  describe "handle_event/3 - passkeys-supported" do
+    test "accepts valid payload", %{view: view} do
       # TODO: Figure out how to assert assign was changed - if possible
 
       assert view
