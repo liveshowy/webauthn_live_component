@@ -82,6 +82,7 @@ defmodule WebauthnComponents.TokenComponent do
         {
           :ok,
           socket
+          |> assign(:token, token)
           |> push_event("store-token", %{token: token})
         }
 
@@ -100,23 +101,31 @@ defmodule WebauthnComponents.TokenComponent do
 
   def render(assigns) do
     ~H"""
-    <span id="token-component" phx-hook="TokenHook"></span>
+    <span id="token-component" phx-hook="TokenHook" phx-target={@myself}></span>
     """
   end
 
-  def handle_event("token-exists", payload, socket) do
-    %{"token" => token} = payload
+  def handle_event("token-exists", %{"token" => token}, socket) when is_binary(token) do
     send(socket.root_pid, {:token_exists, token: token})
     {:noreply, socket}
   end
 
-  def handle_event("token-stored", payload, socket) do
-    %{"token" => token} = payload
-    send(socket.root_pid, {:token_stored, token: token})
+  def handle_event("token-stored", %{"token" => client_token}, socket) do
+    %{token: server_token} = socket.assigns
+
+    if client_token == server_token do
+      send(socket.root_pid, {:token_stored, token: client_token})
+    else
+      send(socket.root_pid, {
+        :invalid_token_returned,
+        server_token: server_token, client_token: client_token
+      })
+    end
+
     {:noreply, socket}
   end
 
-  def handle_event("token-cleared", _payload, socket) do
+  def handle_event("token-cleared", %{"token" => nil}, socket) do
     send(socket.root_pid, {:token_cleared})
     {:noreply, socket}
   end

@@ -61,7 +61,7 @@ const TokenHook = {
       window.sessionStorage.removeItem("userToken");
       console.log(sessionStorage);
       console.info(`Cleared user token`);
-      context.pushEventTo(context.el, "token-cleared", null);
+      context.pushEventTo(context.el, "token-cleared", { token: null });
     } catch (error) {
       console.error(error);
       handleError(error, context);
