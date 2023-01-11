@@ -1,4 +1,6 @@
 {
   "editor.formatOnSave": true,
-  "editor.formatOnPaste": true
+  "editor.formatOnPaste": true,
+  "gitPrefix.pattern": "(\\d+).*",
+  "gitPrefix.replacement": "$1 - "
 }
