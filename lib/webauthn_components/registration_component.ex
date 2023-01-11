@@ -13,11 +13,11 @@ defmodule WebauthnComponents.RegistrationComponent do
   ## Assigns
 
   - `@challenge`: (Internal) A `Wax.Challenge` struct created by the component, used to create a new credential request in the client.
-  - `@user`: (Optional) A map or struct containing an `id`, `username` or `email`, and `display_name`. If no user is provided, a random `id` will be generated, which will be encoded as the `user_handle` during registration.
   - `@class` (Optional) CSS classes for overriding the default button style.
   - `@disabled` (Optional) Set to `true` when the `SupportHook` indicates WebAuthn is not supported or enabled by the browser. Defaults to `false`.
   - `@id` (Optional) An HTML element ID.
   - `@require_resident_key` (Optional) Set to `false` to allow non-passkey credentials. Defaults to `true`.
+  - `@user`: (Optional) A map or struct containing an `id`, `username` or `email`, and `display_name`. If no user is provided, a random `id` will be generated, which will be encoded as the `user_handle` during registration.
 
   ## Events
 
