@@ -12,6 +12,7 @@ defmodule WebauthnComponents.TokenComponent do
 
   ## Assigns
 
+  - `@id` (Optional) An HTML element ID.
   - `@token`: A Base64-encoded session token to be stored in the client.
 
   The parent LiveView may use [`Phoenix.LiveView.send_update/3`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#send_update/3) to set or clear a token in the client.
@@ -56,6 +57,7 @@ defmodule WebauthnComponents.TokenComponent do
     {
       :ok,
       socket
+      |> assign_new(:id, fn -> "token-component" end)
       |> assign_new(:token, fn -> nil end)
     }
   end
@@ -69,13 +71,13 @@ defmodule WebauthnComponents.TokenComponent do
   - Assign a binary token (typically a base64-encoded crypto hash) to persist a user's token to the browser's `sessionStorage`.
   - Invalid token assigns will be logged and the socket will be returned unchanged.
   """
-  def update(%{token: token} = _assigns, socket) do
+  def update(%{id: id, token: token} = _assigns, socket) do
     cond do
       token == :clear ->
         {
           :ok,
           socket
-          |> push_event("clear-token", %{token: token})
+          |> push_event("clear-token", %{id: id, token: token})
         }
 
       is_binary(token) ->
@@ -83,7 +85,7 @@ defmodule WebauthnComponents.TokenComponent do
           :ok,
           socket
           |> assign(:token, token)
-          |> push_event("store-token", %{token: token})
+          |> push_event("store-token", %{id: id, token: token})
         }
 
       true ->
@@ -101,7 +103,7 @@ defmodule WebauthnComponents.TokenComponent do
 
   def render(assigns) do
     ~H"""
-    <span id="token-component" phx-hook="TokenHook" phx-target={@myself}></span>
+    <span id={@id} phx-hook="TokenHook" phx-target={@myself}></span>
     """
   end
 

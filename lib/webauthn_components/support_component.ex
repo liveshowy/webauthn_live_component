@@ -10,6 +10,7 @@ defmodule WebauthnComponents.SupportComponent do
 
   ## Assigns
 
+  - `@id` (Optional) An HTML element ID.
   - `@passkeys_supported`: (Internal) A boolean indicating the client does or does not support the WebAuthn API.
 
   ## Events
@@ -27,13 +28,14 @@ defmodule WebauthnComponents.SupportComponent do
     {
       :ok,
       socket
+      |> assign_new(:id, fn -> "support-component" end)
       |> assign(:passkeys_supported, nil)
     }
   end
 
   def render(assigns) do
     ~H"""
-    <span id="support-component" phx-hook="SupportHook" phx-target={@myself}></span>
+    <span id={@id} phx-hook="SupportHook" phx-target={@myself}></span>
     """
   end
 

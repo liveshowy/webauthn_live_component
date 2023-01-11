@@ -16,6 +16,7 @@ defmodule WebauthnComponents.RegistrationComponent do
   - `@user`: (Optional) A map or struct containing an `id`, `username` or `email`, and `display_name`. If no user is provided, a random `id` will be generated, which will be encoded as the `user_handle` during registration.
   - `@class` (Optional) CSS classes for overriding the default button style.
   - `@disabled` (Optional) Set to `true` when the `SupportHook` indicates WebAuthn is not supported or enabled by the browser. Defaults to `false`.
+  - `@id` (Optional) An HTML element ID.
   - `@require_resident_key` (Optional) Set to `false` to allow non-passkey credentials. Defaults to `true`.
 
   ## Events
@@ -54,6 +55,7 @@ defmodule WebauthnComponents.RegistrationComponent do
       :ok,
       socket
       |> assign(:challenge, fn -> nil end)
+      |> assign_new(:id, fn -> "registration-component" end)
       |> assign_new(:user, fn -> nil end)
       |> assign_new(:class, fn -> nil end)
       |> assign_new(:disabled, fn -> false end)
@@ -64,7 +66,7 @@ defmodule WebauthnComponents.RegistrationComponent do
   def render(assigns) do
     ~H"""
     <.button
-      id="registration-component"
+      id={@id}
       phx-hook="RegistrationHook"
       phx-target={@myself}
       phx-click="register"
@@ -79,10 +81,8 @@ defmodule WebauthnComponents.RegistrationComponent do
   end
 
   def handle_event("register", _params, socket) do
-    %{endpoint: endpoint} = socket
-    app_name = socket.assigns[:app]
-    user = socket.assigns[:user]
-    require_resident_key = socket.assigns[:require_resident_key]
+    %{assigns: assigns, endpoint: endpoint} = socket
+    %{app: app_name, id: id, require_resident_key: require_resident_key, user: user} = assigns
     attestation = "none"
 
     user_handle =
@@ -110,6 +110,7 @@ defmodule WebauthnComponents.RegistrationComponent do
       attestation: attestation,
       challenge: Base.encode64(challenge.bytes, padding: false),
       excludeCredentials: [],
+      id: id,
       require_resident_key: require_resident_key,
       rp: %{
         id: challenge.rp_id,

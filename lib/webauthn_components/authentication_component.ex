@@ -13,6 +13,7 @@ defmodule WebauthnComponents.AuthenticationComponent do
   - `@challenge`: (Internal) A `Wax.Challenge` struct created by the component, used to request an existing credential in the client.
   - `@class` (Optional) CSS classes for overriding the default button style.
   - `@disabled` (Optional) Set to `true` when the `SupportHook` indicates WebAuthn is not supported or enabled by the browser. Defaults to `false`.
+  - `@id` (Optional) An HTML element ID.
 
   ## Events
 
@@ -40,6 +41,7 @@ defmodule WebauthnComponents.AuthenticationComponent do
       :ok,
       socket
       |> assign(:challenge, fn -> nil end)
+      |> assign_new(:id, fn -> "authentication-component" end)
       |> assign_new(:class, fn -> nil end)
       |> assign_new(:disabled, fn -> nil end)
     }
@@ -48,7 +50,7 @@ defmodule WebauthnComponents.AuthenticationComponent do
   def render(assigns) do
     ~H"""
     <.button
-      id="authentication-component"
+      id={@id}
       phx-hook="AuthenticationHook"
       phx-target={@myself}
       type="button"
@@ -64,8 +66,8 @@ defmodule WebauthnComponents.AuthenticationComponent do
   end
 
   def handle_event("authenticate", _params, socket) do
-    %{endpoint: endpoint} = socket
-    %{timeout: timeout} = socket.assigns
+    %{assigns: assigns, endpoint: endpoint} = socket
+    %{id: id, timeout: timeout} = assigns
 
     challenge =
       Wax.new_registration_challenge(
@@ -76,6 +78,7 @@ defmodule WebauthnComponents.AuthenticationComponent do
 
     challenge_data = %{
       challenge: Base.encode64(challenge.bytes, padding: false),
+      id: id,
       timeout: timeout,
       rpId: challenge.rp_id,
       allowCredentials: challenge.allow_credentials,
