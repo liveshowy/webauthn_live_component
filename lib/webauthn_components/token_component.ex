@@ -106,7 +106,7 @@ defmodule WebauthnComponents.TokenComponent do
   end
 
   def handle_event("token-exists", %{"token" => token}, socket) when is_binary(token) do
-    send(socket.root_pid, {:token_exists, token: token})
+    send(self(), {:token_exists, token: token})
     {:noreply, socket}
   end
 
@@ -114,9 +114,9 @@ defmodule WebauthnComponents.TokenComponent do
     %{token: server_token} = socket.assigns
 
     if client_token == server_token do
-      send(socket.root_pid, {:token_stored, token: client_token})
+      send(self(), {:token_stored, token: client_token})
     else
-      send(socket.root_pid, {
+      send(self(), {
         :invalid_token_returned,
         server_token: server_token, client_token: client_token
       })
@@ -126,17 +126,17 @@ defmodule WebauthnComponents.TokenComponent do
   end
 
   def handle_event("token-cleared", %{"token" => nil}, socket) do
-    send(socket.root_pid, {:token_cleared})
+    send(self(), {:token_cleared})
     {:noreply, socket}
   end
 
   def handle_event("error", payload, socket) do
-    send(socket.root_pid, {:error, payload})
+    send(self(), {:error, payload})
     {:noreply, socket}
   end
 
   def handle_event(event, payload, socket) do
-    send(socket.root_pid, {:invalid_event, event, payload})
+    send(self(), {:invalid_event, event, payload})
     {:noreply, socket}
   end
 end

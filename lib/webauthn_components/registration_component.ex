@@ -147,26 +147,26 @@ defmodule WebauthnComponents.RegistrationComponent do
         %{attested_credential_data: %{credential_public_key: public_key}} = authenticator_data
 
         send(
-          socket.root_pid,
+          self(),
           {:registration_successful,
            key_id: raw_id, public_key: public_key, user_handle: user_handle}
         )
 
       {:error, error} ->
         message = Exception.message(error)
-        send(socket.root_pid, {:registration_failure, message: message})
+        send(self(), {:registration_failure, message: message})
     end
 
     {:noreply, socket}
   end
 
   def handle_event("error", payload, socket) do
-    send(socket.root_pid, {:error, payload})
+    send(self(), {:error, payload})
     {:noreply, socket}
   end
 
   def handle_event(event, payload, socket) do
-    send(socket.root_pid, {:invalid_event, event, payload})
+    send(self(), {:invalid_event, event, payload})
     {:noreply, socket}
   end
 end

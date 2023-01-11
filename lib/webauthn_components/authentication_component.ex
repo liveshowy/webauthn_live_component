@@ -114,7 +114,7 @@ defmodule WebauthnComponents.AuthenticationComponent do
       user_handle: user_handle
     }
 
-    send(socket.root_pid, {:find_credentials, user_handle: user_handle})
+    send(self(), {:find_credentials, user_handle: user_handle})
 
     {
       :noreply,
@@ -124,12 +124,12 @@ defmodule WebauthnComponents.AuthenticationComponent do
   end
 
   def handle_event("error", payload, socket) do
-    send(socket.root_pid, {:error, payload})
+    send(self(), {:error, payload})
     {:noreply, socket}
   end
 
   def handle_event(event, payload, socket) do
-    send(socket.root_pid, {:invalid_event, event, payload})
+    send(self(), {:invalid_event, event, payload})
     {:noreply, socket}
   end
 end

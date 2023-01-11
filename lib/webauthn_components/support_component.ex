@@ -39,7 +39,7 @@ defmodule WebauthnComponents.SupportComponent do
 
   def handle_event("passkeys-supported", %{"supported" => boolean}, socket)
       when is_boolean(boolean) do
-    send(socket.root_pid, {:passkeys_supported, boolean})
+    send(self(), {:passkeys_supported, boolean})
 
     {
       :noreply,
@@ -49,7 +49,7 @@ defmodule WebauthnComponents.SupportComponent do
   end
 
   def handle_event(event, payload, socket) do
-    send(socket.root_pid, {:invalid_event, event, payload})
+    send(self(), {:invalid_event, event, payload})
     {:noreply, socket}
   end
 end
