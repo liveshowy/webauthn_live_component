@@ -1,22 +1,11 @@
 import { base64ToArray, arrayBufferToBase64, handleError } from "./utils";
 
 const AuthenticationHook = {
-  abortController: new AbortController(),
-
   mounted() {
     console.info(`AuthenticationHook mounted`);
 
-    listenerOptions = { signal: context.abortController.signal };
-
-    window.addEventListener("phx:passkey-authentication", (event) =>
+    this.handleEvent("passkey-authentication", (event) =>
       this.handlePasskeyAuthentication(event, context)
-    );
-  },
-
-  destroyed() {
-    window.removeEventListener(
-      "phx:passkey-authentication",
-      this.handlePasskeyAuthentication
     );
   },
 

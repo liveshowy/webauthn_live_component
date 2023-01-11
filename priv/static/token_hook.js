@@ -1,39 +1,13 @@
 import { handleError } from "./utils";
 
 const TokenHook = {
-  abortController: new AbortController(),
-
   mounted() {
     console.info(`TokenHook mounted`);
 
+    this.handleEvent("store-token", (event) => this.storeToken(event, this));
+    this.handleEvent("clear-token", () => this.clearToken(this));
+
     this.pushUserToken(this);
-    this.attachEventListeners(this);
-  },
-
-  destroyed() {
-    this.detachEventListeners();
-  },
-
-  attachEventListeners(context) {
-    listenerOptions = { signal: context.abortController.signal };
-
-    window.addEventListener(
-      "phx:store-token",
-      (event) => context.storeToken(event, context),
-      listenerOptions
-    );
-
-    window.addEventListener(
-      "phx:clear-token",
-      (_event) => context.clearToken(null, context),
-      listenerOptions
-    );
-  },
-
-  detachEventListeners() {
-    window.removeEventListener("phx:store-token", this.storeToken);
-
-    window.removeEventListener("phx:clear-token", this.clearToken);
   },
 
   pushUserToken(context) {
@@ -56,7 +30,7 @@ const TokenHook = {
     }
   },
 
-  clearToken(_data, context) {
+  clearToken(context) {
     try {
       window.sessionStorage.removeItem("userToken");
       console.log(sessionStorage);

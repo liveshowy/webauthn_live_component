@@ -1,22 +1,11 @@
 import { base64ToArray, arrayBufferToBase64, handleError } from "./utils";
 
 const RegistrationHook = {
-  abortController: new AbortController(),
-
   mounted() {
     console.info(`RegistrationHook mounted`);
 
-    listenerOptions = { signal: context.abortController.signal };
-
-    window.addEventListener("phx:passkey-registration", (event) =>
+    this.handleEvent("passkey-registration", (event) =>
       this.handleRegistration(event, context)
-    );
-  },
-
-  destroyed() {
-    window.removeEventListener(
-      "phx:passkey-registration",
-      this.handleRegistration
     );
   },
 
